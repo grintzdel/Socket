@@ -33,4 +33,5 @@ export type SocketHookReturn = {
     sendMessage: (message: string) => void;
     startTyping: () => void;
     stopTyping: () => void;
+    connectedUsers: string[];
 };

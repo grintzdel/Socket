@@ -21,12 +21,30 @@ const io = new Server(server, {
   }
 });
 
+let connectedUsers: string[] = [];
+
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Socket API' });
 });
 
 io.on('connection', (socket) => {
+  socket.on('user:join', (data) => {
+    const { username } = data;
+    
+    if (username && !connectedUsers.includes(username)) {
+      connectedUsers.push(username);
+      io.emit('connected_users', connectedUsers);
+    }
+  });
+
   socketHandlers(io, socket);
+
+  socket.on('disconnect', () => {
+    connectedUsers = connectedUsers.filter(user => user !== socket.id);
+    io.emit('connected_users', connectedUsers);
+  });
+
+  io.emit('connected_users', connectedUsers);
 });
 
 server.listen(3001, () => {

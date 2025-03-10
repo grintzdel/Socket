@@ -1,4 +1,4 @@
-import {useRef, useCallback} from 'react';
+import {useRef, useCallback, useState} from 'react';
 import {io, type Socket} from 'socket.io-client';
 import {useChatContext} from '../context/ChatContext';
 import {useUserContext} from '../context/UserContext';
@@ -10,6 +10,8 @@ export const useSocket = (): SocketHookReturn => {
     const socketRef = useRef<Socket | null>(null);
     const {addMessage, setTypingUsers} = useChatContext();
     const {user} = useUserContext();
+
+    const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
 
     const initSocket = useCallback(() => {
         socketRef.current = io(SOCKET_URL, {
@@ -29,6 +31,10 @@ export const useSocket = (): SocketHookReturn => {
 
         socket.on('user_typing', (users: string[]) => {
             setTypingUsers(users);
+        });
+
+        socket.on('connected_users', (users: string[]) => {
+            setConnectedUsers(users);
         });
 
         if (user?.username) {
@@ -66,6 +72,7 @@ export const useSocket = (): SocketHookReturn => {
         initSocket,
         sendMessage,
         startTyping,
-        stopTyping
+        stopTyping,
+        connectedUsers, 
     };
 };

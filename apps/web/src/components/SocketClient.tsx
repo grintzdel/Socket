@@ -11,7 +11,7 @@ const SocketClient: React.FC = () => {
     const [isConnected, setIsConnected] = useState(false);
     const {messages} = useChatContext();
     const {user} = useUserContext();
-    const {initSocket, sendMessage, startTyping, stopTyping} = useSocket();
+    const {initSocket, sendMessage, startTyping, stopTyping, connectedUsers} = useSocket();
 
     useEffect(() => {
         if (isConnected) {
@@ -43,6 +43,15 @@ const SocketClient: React.FC = () => {
     return (
         <div className="max-w-4xl mx-auto p-4">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Chat en ligne</h2>
+
+            <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+                <h3 className="text-lg font-semibold text-gray-700 mb-4">Utilisateurs connectés</h3>
+                <ul>
+                    {connectedUsers.map((username, index) => (
+                        <li key={index} className="p-2">{username}</li>
+                    ))}
+                </ul>
+            </div>
 
             <div className="bg-white rounded-lg shadow-md p-4 mb-4">
                 <h3 className="text-lg font-semibold text-gray-700 mb-4">Messages</h3>
