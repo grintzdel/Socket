@@ -1,7 +1,8 @@
 import express from 'express';
 import http from 'http';
-import socketIo from 'socket.io';
+import { Server } from 'socket.io';
 import cors from 'cors';
+import { socketHandlers } from './socketHandlers';
 
 const app = express();
 
@@ -12,8 +13,7 @@ app.use(cors({
 }));
 
 const server = http.createServer(app);
-
-const io = new socketIo.Server(server, {
+const io = new Server(server, {
   cors: {
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST'],
@@ -21,26 +21,14 @@ const io = new socketIo.Server(server, {
   }
 });
 
-
 app.get('/', (req, res) => {
-  res.json({ message: 'Bienvenue sur l\'API Socket' });
+  res.json({ message: 'Welcome to the Socket API' });
 });
 
 io.on('connection', (socket) => {
-  console.log('Un utilisateur est connecté', socket.id);
-
-  socket.on('send_message', (data) => {
-    console.log('Message reçu:', data);
-    io.emit('new_message', data); 
-  });
-
-
-  socket.on('disconnect', () => {
-    console.log('Utilisateur déconnecté', socket.id);
-  });
+  socketHandlers(io, socket);
 });
 
-
 server.listen(3001, () => {
-  console.log('Serveur démarré sur http://localhost:3001');
+  console.log('🚀 Server running at http://localhost:3001');
 });
