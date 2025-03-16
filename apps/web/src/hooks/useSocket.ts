@@ -5,7 +5,7 @@ import { useUserContext } from "./useUserContext.ts";
 import type { SocketHookReturn } from "../types/chat";
 import { clearChatStorage, storeMessages } from "../utils/storage";
 
-const SOCKET_URL = import.meta.env.VITE_API_URL;
+const SOCKET_URL = 'https://socket-api.maoudin.com';
 
 export const useSocket = (): SocketHookReturn => {
   const socketRef = useRef<Socket | null>(null);

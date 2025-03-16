@@ -11,7 +11,7 @@ const HOST = process.env.HOST || "localhost";
 
 app.use(
   cors({
-    origin: CORS_ORIGIN,
+    origin: ["https://socket.maoudin.com", "http://localhost:5173"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   })
@@ -20,7 +20,7 @@ app.use(
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: CORS_ORIGIN,
+    origin: ["https://socket.maoudin.com", "http://localhost:5173"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   },
