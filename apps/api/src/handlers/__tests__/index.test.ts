@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { setupAuthHandlers } from "../authHandlers";
 import { setupConnectionHandlers } from "../connectionHandlers";
 import { setupSocketHandlers } from "../index";
@@ -23,6 +23,10 @@ vi.mock("../typingHandlers", () => ({
 }));
 
 describe("handlers/index", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it("devrait initialiser tous les handlers dans le bon ordre", () => {
     const io = {} as Server;
     const socket = {} as Socket;
