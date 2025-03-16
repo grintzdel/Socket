@@ -62,6 +62,13 @@ class UserService {
   generateUniqueUsername(username: string, socketId: string): string {
     return `${username}_${socketId.slice(-4)}`;
   }
+
+  /**
+   * Réinitialise l'état du service (pour les tests)
+   */
+  reset(): void {
+    this.connectedUsers.clear();
+  }
 }
 
 // Exporter une instance singleton
