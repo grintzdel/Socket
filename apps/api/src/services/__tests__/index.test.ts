@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { userService, typingService, messageService } from "../index";
+import * as services1 from "../index";
+import * as services2 from "../index";
 
 describe("Services index", () => {
   it("devrait exporter userService", () => {
@@ -24,13 +26,8 @@ describe("Services index", () => {
   });
 
   it("devrait exporter des instances singleton", () => {
-    const {
-      userService: userService2,
-      typingService: typingService2,
-      messageService: messageService2,
-    } = require("../index");
-    expect(userService2).toBe(userService);
-    expect(typingService2).toBe(typingService);
-    expect(messageService2).toBe(messageService);
+    expect(services1.userService).toBe(services2.userService);
+    expect(services1.typingService).toBe(services2.typingService);
+    expect(services1.messageService).toBe(services2.messageService);
   });
 });
