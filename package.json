@@ -9,7 +9,10 @@
     "build:api": "pnpm --filter api build",
     "build:web": "pnpm --filter web build",
     "start:api": "pnpm --filter api start:prod",
-    "start:web": "pnpm --filter web start"
+    "start:web": "pnpm --filter web start",
+    "test:api": "pnpm --filter api test",
+    "test:api:watch": "pnpm --filter api test:watch",
+    "test:api:ui": "pnpm --filter api test:ui"
   },
   "keywords": [],
   "author": "grintzdel",
