@@ -5,10 +5,13 @@ import { Server } from "socket.io";
 import { setupSocketHandlers } from "./handlers";
 
 const app = express();
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:5173";
+const PORT = process.env.PORT || 3001;
+const HOST = process.env.HOST || "localhost";
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: CORS_ORIGIN,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   })
@@ -17,7 +20,7 @@ app.use(
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: CORS_ORIGIN,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   },
@@ -37,6 +40,6 @@ io.on("connection", (socket) => {
   setupSocketHandlers(io, socket);
 });
 
-server.listen(3001, () => {
-  console.log("🚀 Server running at http://localhost:3001");
+server.listen(PORT, () => {
+  console.log(`🚀 Server running at http://${HOST}:${PORT}`);
 });
