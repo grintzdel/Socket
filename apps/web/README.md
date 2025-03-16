@@ -1,54 +1,68 @@
-# React + TypeScript + Vite
+# Frontend Chat Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application React de chat en temps réel utilisant Socket.IO.
 
-Currently, two official plugins are available:
+## Structure du code
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+src/
+├── components/     # Composants React réutilisables
+├── hooks/         # Hooks personnalisés (useSocket, useChat, etc.)
+├── types/         # Types TypeScript
+└── utils/         # Utilitaires et fonctions helpers
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Hooks principaux
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### useSocket
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+Le hook principal pour la gestion des connexions Socket.IO. Il gère :
+
+- La connexion au serveur
+- L'envoi et la réception des messages
+- La gestion des utilisateurs connectés
+- Les indicateurs de frappe
+
+```typescript
+const {
+  socket,
+  initSocket,
+  sendMessage,
+  startTyping,
+  stopTyping,
+  connectedUsers,
+  disconnect,
+} = useSocket();
 ```
+
+### useChat
+
+Gère l'état du chat et les messages :
+
+- Historique des messages
+- Utilisateurs en train de taper
+- Stockage local des messages
+
+## Variables d'environnement
+
+```env
+# URL de l'API (obligatoire)
+VITE_API_URL=http://localhost:3001
+```
+
+## Scripts disponibles
+
+```bash
+# Développement
+pnpm dev
+
+# Build
+pnpm build
+
+# Preview du build
+pnpm preview
+```
+
+## Personnalisation
+
+Le style peut être personnalisé via TailwindCSS dans le fichier `tailwind.config.js`.
