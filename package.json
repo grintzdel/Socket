@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install:all": "pnpm install && pnpm --filter api install && pnpm --filter web install",
     "dev": "pnpm run --parallel dev",
     "build:api": "pnpm --filter api build",
     "build:web": "pnpm --filter web build",
