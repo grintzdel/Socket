@@ -8,6 +8,7 @@ describe("MessageService", () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
   describe("generateMessageId", () => {
@@ -24,7 +25,12 @@ describe("MessageService", () => {
     });
 
     it("devrait générer des IDs différents à chaque appel", () => {
+      const mockDate1 = new Date("2024-03-16T12:00:00Z");
+      vi.setSystemTime(mockDate1);
       const id1 = messageService.generateMessageId();
+
+      // Avancer le temps d'une seconde
+      vi.advanceTimersByTime(1000);
       const id2 = messageService.generateMessageId();
 
       expect(id1).not.toBe(id2);
